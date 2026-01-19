@@ -16,6 +16,7 @@ COLORS = {
     "demographic": "#1f77b4",  # Blue
     "biometric": "#ff7f0e",    # Orange
     "enrollment": "#2ca02c",   # Green
+    "primary": "#9467bd",      # Purple (for general charts)
 }
 
 FIGURE_DPI = 150
