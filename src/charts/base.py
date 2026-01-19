@@ -4,6 +4,8 @@ from pathlib import Path
 from typing import Optional
 
 import matplotlib.pyplot as plt
+from PIL import Image
+from PIL.PngImagePlugin import PngInfo
 
 from src.data_loader import DataLoader
 import config
@@ -66,7 +68,18 @@ class BaseChart(ABC):
         )
         plt.close(fig)
 
+        self._add_metadata()
+
         return self.output_path
+
+    def _add_metadata(self) -> None:
+        img = Image.open(self.output_path)
+        metadata = PngInfo()
+        metadata.add_text("Author", "github.com/BMOit")
+        metadata.add_text("Title", self.title)
+        metadata.add_text("Software", "UIDAI Data Hackathon 2026")
+        metadata.add_text("Copyright", "github.com/BMOit")
+        img.save(self.output_path, pnginfo=metadata)
 
     def _apply_common_style(self, ax: plt.Axes) -> None:
         ax.set_title(self.title, fontsize=14, fontweight="bold", pad=15)
