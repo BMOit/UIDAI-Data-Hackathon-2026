@@ -1,0 +1,1 @@
+"""Insights analysis charts package."""

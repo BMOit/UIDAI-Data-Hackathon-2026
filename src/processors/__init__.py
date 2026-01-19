@@ -7,6 +7,9 @@ from .engagement_diversity import EngagementDiversityProcessor
 from .age_group_aggregator import AgeGroupAggregator
 from .weekly_pattern import WeeklyPatternProcessor
 from .correlation_matrix import CorrelationMatrixProcessor
+from .monthly_aggregator import MonthlyAggregator
+from .engagement_level import EngagementLevelProcessor
+from .district_aggregator import DistrictAggregator
 
 __all__ = [
     "BaseProcessor",
@@ -16,5 +19,8 @@ __all__ = [
     "EngagementDiversityProcessor",
     "AgeGroupAggregator",
     "WeeklyPatternProcessor",
-    "CorrelationMatrixProcessor"
+    "CorrelationMatrixProcessor",
+    "MonthlyAggregator",
+    "EngagementLevelProcessor",
+    "DistrictAggregator"
 ]
