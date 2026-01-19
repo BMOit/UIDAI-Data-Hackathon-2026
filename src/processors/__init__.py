@@ -10,6 +10,8 @@ from .correlation_matrix import CorrelationMatrixProcessor
 from .monthly_aggregator import MonthlyAggregator
 from .engagement_level import EngagementLevelProcessor
 from .district_aggregator import DistrictAggregator
+from .intensity_processor import IntensityProcessor
+from .clustering_processor import ClusteringProcessor
 
 __all__ = [
     "BaseProcessor",
@@ -22,5 +24,7 @@ __all__ = [
     "CorrelationMatrixProcessor",
     "MonthlyAggregator",
     "EngagementLevelProcessor",
-    "DistrictAggregator"
+    "DistrictAggregator",
+    "IntensityProcessor",
+    "ClusteringProcessor"
 ]
