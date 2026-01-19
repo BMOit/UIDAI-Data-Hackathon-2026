@@ -45,6 +45,17 @@ class BaseChart(ABC):
         if fig is None:
             fig = self.generate()
 
+        fig.text(
+            0.99, 0.01,
+            "github.com/BMOit",
+            transform=fig.transFigure,
+            fontsize=9,
+            color="gray",
+            alpha=0.7,
+            ha="right",
+            va="bottom"
+        )
+
         config.CHARTS_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
         fig.savefig(
             self.output_path,
