@@ -49,6 +49,28 @@ class ClusteringProcessor(BaseProcessor):
         # Intensity
         features["avg_intensity"] = features["total_inter"] / features["total_freq"]
         
+        # --- New Metrics for Charts 21-25 ---
+        
+        # 1. Engagement Score (Chart 21)
+        # Formula: (total_demo * 0.2) + (total_bio * 0.4) + (total_enroll * 0.4)
+        features["engagement_score"] = (
+            features["demo_total"] * 0.2 + 
+            features["bio_total"] * 0.4 + 
+            features["enroll_total"] * 0.4
+        )
+        
+        # 2. Per-visit intensities (Chart 22)
+        # Avoid division by zero by using 1 if freq is 0 (intensity will be 0 anyway since total is 0)
+        features["demo_intensity"] = features["demo_total"] / features["demo_freq"].replace(0, 1)
+        features["bio_intensity"] = features["bio_total"] / features["bio_freq"].replace(0, 1)
+        features["enroll_intensity"] = features["enroll_total"] / features["enroll_freq"].replace(0, 1)
+        
+        # 3. Balance Score (Chart 23)
+        # Formula: 1 - std_dev([demo_ratio, bio_ratio, enroll_ratio])
+        # Calculating std deviation across the 3 ratio columns row-wise
+        ratios = features[["demo_ratio", "bio_ratio", "enroll_ratio"]]
+        features["balance_score"] = 1 - ratios.std(axis=1)
+        
         # Select features for clustering
         # We'll use ratios, frequencies, and intensity
         return features
