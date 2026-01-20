@@ -5,6 +5,7 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).parent
 DATASETS_DIR = PROJECT_ROOT / "Datasets"
 CHARTS_OUTPUT_DIR = PROJECT_ROOT / "charts"
+CHARTS_SVG_OUTPUT_DIR = PROJECT_ROOT / "charts-svg"
 
 # Dataset directories
 DEMOGRAPHIC_DIR = DATASETS_DIR / "demographic"
@@ -24,3 +25,17 @@ DEFAULT_FIGSIZE = (12, 8)
 
 # Date format in CSVs (DD-MM-YYYY)
 DATE_FORMAT = "%d-%m-%Y"
+
+# SVG Export Configuration
+SVG_OPTIMIZE = True
+SVG_OPTIMIZATION_OPTIONS = {
+    "remove_descriptive_elements": False,
+    "strip_xml_prolog": False,
+    "enable_viewboxing": True,
+    "shorten_ids": True,
+}
+
+# Metadata/Credit
+CHART_AUTHOR = "github.com/BMOit"
+CHART_SOFTWARE = "UIDAI Data Hackathon 2026"
+CHART_COPYRIGHT = "github.com/BMOit"

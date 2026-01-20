@@ -34,6 +34,19 @@ def main():
     parser.add_argument("--chart", "-c", type=str, nargs="+", help="Chart ID(s) to generate")
     parser.add_argument("--list", "-l", action="store_true", help="List available charts")
     parser.add_argument("--output", "-o", type=Path, default=config.CHARTS_OUTPUT_DIR)
+    parser.add_argument(
+        "--format", "-f",
+        type=str,
+        choices=["png", "svg", "both"],
+        default="png",
+        help="Output format: png, svg, or both (default: png)"
+    )
+    parser.add_argument(
+        "--svg-output",
+        type=Path,
+        default=None,
+        help="Output directory for SVG files (default: charts-svg/)"
+    )
 
     args = parser.parse_args()
 
@@ -44,10 +57,18 @@ def main():
     if args.output != config.CHARTS_OUTPUT_DIR:
         config.CHARTS_OUTPUT_DIR = args.output
 
+    if args.svg_output:
+        config.CHARTS_SVG_OUTPUT_DIR = args.svg_output
+
     config.CHARTS_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    if args.format in ("svg", "both"):
+        config.CHARTS_SVG_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
     print(f"\nUIDAI Data Hackathon 2026 - Chart Generator")
-    print(f"Output directory: {config.CHARTS_OUTPUT_DIR}")
+    print(f"Output format: {args.format}")
+    print(f"PNG output directory: {config.CHARTS_OUTPUT_DIR}")
+    if args.format in ("svg", "both"):
+        print(f"SVG output directory: {config.CHARTS_SVG_OUTPUT_DIR}")
     print("-" * 50)
 
     print("\nLoading datasets...")
@@ -58,11 +79,17 @@ def main():
     print("  -> Datasets loaded and cached")
 
     print("\nGenerating charts...")
-    output_paths = generate_all_charts(args.chart)
+    output_paths = generate_all_charts(args.chart, formats=args.format)
 
     print("-" * 50)
-    print(f"\nGenerated {len(output_paths)} chart(s)")
-    print(f"Output location: {config.CHARTS_OUTPUT_DIR}\n")
+    print(f"\nGenerated {len(output_paths)} file(s)")
+    if args.format == "png":
+        print(f"Output location: {config.CHARTS_OUTPUT_DIR}\n")
+    elif args.format == "svg":
+        print(f"Output location: {config.CHARTS_SVG_OUTPUT_DIR}\n")
+    else:
+        print(f"PNG location: {config.CHARTS_OUTPUT_DIR}")
+        print(f"SVG location: {config.CHARTS_SVG_OUTPUT_DIR}\n")
 
 
 if __name__ == "__main__":

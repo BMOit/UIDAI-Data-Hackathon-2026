@@ -1,6 +1,6 @@
 """Chart registry and auto-discovery."""
 from pathlib import Path
-from typing import Dict, List, Optional, Type
+from typing import Dict, List, Optional, Type, Union
 import importlib
 import pkgutil
 
@@ -39,7 +39,19 @@ def discover_charts() -> None:
                     )
 
 
-def generate_all_charts(chart_ids: Optional[List[str]] = None) -> List[Path]:
+def generate_all_charts(
+    chart_ids: Optional[List[str]] = None,
+    formats: Union[str, List[str]] = "png"
+) -> List[Path]:
+    """Generate charts in specified format(s).
+
+    Args:
+        chart_ids: Optional list of chart IDs to generate
+        formats: 'png', 'svg', 'both', or list like ['png', 'svg']
+
+    Returns:
+        List of paths to generated files
+    """
     discover_charts()
     output_paths = []
 
@@ -49,8 +61,13 @@ def generate_all_charts(chart_ids: Optional[List[str]] = None) -> List[Path]:
             continue
 
         print(f"Generating {chart.chart_id}: {chart.title}...")
-        path = chart.save()
-        output_paths.append(path)
-        print(f"  -> Saved to {path}")
+        paths = chart.save(formats=formats)
+
+        if isinstance(paths, Path):
+            paths = [paths]
+
+        output_paths.extend(paths)
+        for path in paths:
+            print(f"  -> Saved to {path}")
 
     return output_paths
